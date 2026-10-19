@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de clientes</title>
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
+
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -16,9 +18,10 @@
             <a class="navbar-brand fw-bold" href="index.html">
                 Sistema de Gestión
             </a>
+
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="index.html">Inicio</a>
-                <a class="nav-link" href="clientes.html">Clientes</a>
+                <a class="nav-link active" href="clientes.html">Clientes</a>
                 <a class="nav-link" href="servicios.html">Servicios</a>
                 <a class="nav-link" href="reservas.html">Reservas</a>
             </div>
@@ -26,11 +29,128 @@
     </nav>
 
     <main class="container py-5">
-        <h1>Gestión de clientes</h1>
-        <p class="text-secondary">
-            En este módulo se implementará el registro,
-            modificación y consulta de clientes.
-        </p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>Gestión de clientes</h1>
+                <p class="text-secondary mb-0">
+                    Registra, consulta, modifica y elimina clientes.
+                </p>
+            </div>
+        </div>
+
+        <div id="mensaje" class="mb-3" role="status"
+             aria-live="polite"></div>
+
+        <section class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h2 class="h5 mb-0" id="tituloFormulario">
+                    Registrar cliente
+                </h2>
+            </div>
+
+            <div class="card-body">
+                <form id="formularioCliente" novalidate>
+                    <input type="hidden" id="clienteId">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">
+                                Nombre completo
+                            </label>
+                            <input type="text" class="form-control"
+                                   id="nombre" name="nombre"
+                                   maxlength="100" required>
+                            <div class="invalid-feedback">
+                                Ingresa el nombre del cliente.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="documento" class="form-label">
+                                DNI
+                            </label>
+                            <input type="text" class="form-control"
+                                   id="documento" name="documento"
+                                   inputmode="numeric" maxlength="8"
+                                   required>
+                            <div class="invalid-feedback">
+                                Ingresa un DNI de 8 dígitos.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="telefono" class="form-label">
+                                Teléfono
+                            </label>
+                            <input type="tel" class="form-control"
+                                   id="telefono" name="telefono"
+                                   inputmode="numeric" maxlength="9"
+                                   required>
+                            <div class="invalid-feedback">
+                                Ingresa un teléfono de 9 dígitos.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="correo" class="form-label">
+                                Correo electrónico
+                            </label>
+                            <input type="email" class="form-control"
+                                   id="correo" name="correo"
+                                   maxlength="150" required>
+                            <div class="invalid-feedback">
+                                Ingresa un correo electrónico válido.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"
+                                id="btnGuardar">
+                            Registrar cliente
+                        </button>
+
+                        <button type="button" class="btn btn-secondary"
+                                id="btnCancelar" hidden>
+                            Cancelar edición
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h2 class="h5 mb-0">Lista de clientes</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">DNI</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaClientes">
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    Cargando clientes...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <script src="js/validaciones.js"></script>
+    <script src="js/clientes.js"></script>
 </body>
 </html>
+
