@@ -78,3 +78,4 @@ function validarDatosCliente(cliente) {
 
     return errores;
 }
+}
