@@ -1,4 +1,5 @@
 const CLAVE_SERVICIOS = "servicios";
+const MAX_MINUTOS = 24 * 60;
 
 function obtenerServicios() {
     try {
@@ -27,6 +28,24 @@ function mostrarMensaje(texto, tipo) {
     }, 3000);
 }
 
+function parsearDuracion(texto) {
+    const coincidencia = /^(\d{1,2}):([0-5]\d)$/.exec(texto.trim());
+    if (!coincidencia) {
+        return null;
+    }
+    const horas = parseInt(coincidencia[1], 10);
+    const minutos = parseInt(coincidencia[2], 10);
+    const total = horas * 60 + minutos;
+    return total > 0 && total <= MAX_MINUTOS ? total : null;
+}
+
+// Convierte 90 minutos en "1:30".
+function formatearDuracion(totalMinutos) {
+    const horas = Math.floor(totalMinutos / 60);
+    const minutos = totalMinutos % 60;
+    return `${horas}:${String(minutos).padStart(2, "0")}`;
+}
+
 function listarServicios(filtro = "") {
     const tbody = document.getElementById("tablaServicios");
     const texto = filtro.trim().toLowerCase();
@@ -49,7 +68,7 @@ function listarServicios(filtro = "") {
             <td>${escaparHtml(s.nombre)}</td>
             <td>${escaparHtml(s.descripcion)}</td>
             <td>S/ ${s.precio.toFixed(2)}</td>
-            <td>${s.duracion} min</td>
+            <td>${escaparHtml(s.duracion)} h</td>
         </tr>`).join("");
 }
 
@@ -59,7 +78,9 @@ function registrarServicio(evento) {
     const nombre = document.getElementById("nombre").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
     const precio = parseFloat(document.getElementById("precio").value);
-    const duracion = parseInt(document.getElementById("duracion").value, 10);
+    const duracionMinutos = parsearDuracion(
+        document.getElementById("duracion").value
+    );
 
     if (nombre === "") {
         mostrarMensaje("El nombre del servicio es obligatorio.", "danger");
@@ -69,8 +90,11 @@ function registrarServicio(evento) {
         mostrarMensaje("Ingresa un precio válido (0 o mayor).", "danger");
         return;
     }
-    if (isNaN(duracion) || duracion < 1) {
-        mostrarMensaje("La duración debe ser de al menos 1 minuto.", "danger");
+    if (duracionMinutos === null) {
+        mostrarMensaje(
+            "Ingresa la duración en formato H:MM (ej: 1:30), mayor a 0 y hasta 24:00.",
+            "danger"
+        );
         return;
     }
 
@@ -87,7 +111,14 @@ function registrarServicio(evento) {
         ? Math.max(...servicios.map(s => s.id)) + 1
         : 1;
 
-    servicios.push({ id: nuevoId, nombre, descripcion, precio, duracion });
+    servicios.push({
+        id: nuevoId,
+        nombre,
+        descripcion,
+        precio,
+        duracion: formatearDuracion(duracionMinutos),
+        duracionMinutos
+    });
     guardarServicios(servicios);
 
     document.getElementById("formServicio").reset();
