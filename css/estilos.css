@@ -1,0 +1,47 @@
+
+/* Configuración general */
+body {
+    background-color: #f4f7fb;
+    color: #243247;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* Barra de navegación */
+.navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Títulos */
+h1, h2 {
+    color: #17365d;
+}
+
+/* Tarjetas del panel principal */
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10) !important;
+}
+
+/* Botones */
+.btn {
+    border-radius: 7px;
+}
+
+/* Pie de página */
+footer {
+    margin-top: 30px;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 576px) {
+    main.container {
+        padding-top: 2rem !important;
+    }
+}
